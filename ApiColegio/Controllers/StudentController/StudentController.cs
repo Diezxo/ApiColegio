@@ -1,6 +1,6 @@
 ﻿using ApiColegio.Dtos.StudentDtos;
-using ApiColegio.Requests.StudentRequest;
 using Application.Dtos.StudentDtos;
+using Application.Features.Student.Commands;
 using Application.Features.Student.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,19 +15,18 @@ namespace ApiColegio.Controllers.StudentController
     {
         public StudentController(ILogger<StudentController> logger, IMediator mediator)
         {
-            _loggerInstance= logger;
+            _loggerInstance = logger;
             _mediatorInstance = mediator;
 
         }
-        private readonly StudentRequest student;
 
         // GET: api/<StudentController>
         [HttpGet]
-        public IQueryable<StudentResponse> Get()
-        {
-            return student.ToList();
+        //public IQueryable<StudentResponse> Get()
+        //{
+        //    //return student.ToList();
 
-        }
+        //}
 
         // GET api/<StudentController>/5
         [HttpGet("{id}")]
@@ -42,38 +41,41 @@ namespace ApiColegio.Controllers.StudentController
 
         // POST api/<StudentController>
         [HttpPost]
-        public ActionResult Post(StudentRegisterDto _student)
+        public async Task<IActionResult> Post([FromBody] CreateStudentCommand command)
         {
             try
             {
-                student.Register(_student);
-                return Ok(_student);
+                var result = await _mediator.Send(command);
+
+                return Ok(result);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                return BadRequest(ex.Message + ex.InnerException);
+                return BadRequest(ex.Message);
             }
+
+                
         }
 
         // PUT api/<StudentController>/5
-        [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] StudentUpdateDto _student)
-        {
-            if (id != _student.Id)
-            {
-                return BadRequest("Los Id no coinciden");
-            }
+        //[HttpPut("{id}")]
+        //public ActionResult Put(int id, [FromBody] StudentUpdateDto _student)
+        //{
+        //    if (id != _student.Id)
+        //    {
+        //        return BadRequest("Los Id no coinciden");
+        //    }
 
-            student.Update(_student);
-            return Ok(_student);
-        }
+        //    student.Update(_student);
+        //    return Ok(_student);
+        //}
 
         // DELETE api/<StudentController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            student.Delete(id);
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    student.Delete(id);
+        //}
 
     }
 }

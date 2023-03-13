@@ -1,15 +1,14 @@
-﻿
-using Application.Dtos.CourseDtos;
+﻿using Application.Dtos.CourseDtos;
 using AutoMapper;
 using Domain.Entities.Models;
 
-namespace Application.Mapping
+namespace ApiColegio.Mapping
 {
     public class CourseProfile: Profile
     {
         public CourseProfile()
         {
-            CreateMap<Course, CourseResponse>();
+            CreateMap<Course, CourseResponse>().ReverseMap();
                 
         }
     }

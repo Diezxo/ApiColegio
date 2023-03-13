@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Intrinsics.X86;
 using Domain.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -8,9 +9,6 @@ namespace Domain.Context
 {
     public partial class ConexionSQLServer : DbContext
     {
-        public ConexionSQLServer()
-        {
-        }
 
         public ConexionSQLServer(DbContextOptions<ConexionSQLServer> options)
             : base(options)
@@ -22,7 +20,7 @@ namespace Domain.Context
         public virtual DbSet<Subject> Subjects { get; set; } = null!;
         public virtual DbSet<Teacher> Teachers { get; set; } = null!;
         public virtual DbSet<Grade> Grades { get; set; } = null!;
-
+        public virtual DbSet<Services> Service { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -136,6 +134,15 @@ namespace Domain.Context
 
             });
 
+            modelBuilder.Entity<Services>()
+                .HasMany<Student>(x=>x.Students)
+                .WithMany(x => x.Services)
+                .UsingEntity<Dictionary<string, string>>(
+                    "EstudianteServicios",
+                    j => j.HasOne<Student>().WithMany().HasForeignKey("IdEstudiante"),
+                    j => j.HasOne<Services>().WithMany().HasForeignKey("IdServicio"));
+                    
+            ;
             OnModelCreatingPartial(modelBuilder);
         }
 

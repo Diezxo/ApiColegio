@@ -68,6 +68,24 @@ namespace ApiColegio.Migrations
                     b.ToTable("Notas");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Models.Services", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Nombre");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Servicio");
+                });
+
             modelBuilder.Entity("Domain.Entities.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -180,6 +198,21 @@ namespace ApiColegio.Migrations
                     b.ToTable("Teachers");
                 });
 
+            modelBuilder.Entity("EstudianteServicios", b =>
+                {
+                    b.Property<int>("IdEstudiante")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdServicio")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdEstudiante", "IdServicio");
+
+                    b.HasIndex("IdServicio");
+
+                    b.ToTable("EstudianteServicios");
+                });
+
             modelBuilder.Entity("Domain.Entities.Models.Grade", b =>
                 {
                     b.HasOne("Domain.Entities.Models.Student", "Student")
@@ -226,6 +259,21 @@ namespace ApiColegio.Migrations
                         .IsRequired();
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("EstudianteServicios", b =>
+                {
+                    b.HasOne("Domain.Entities.Models.Student", null)
+                        .WithMany()
+                        .HasForeignKey("IdEstudiante")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Models.Services", null)
+                        .WithMany()
+                        .HasForeignKey("IdServicio")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Course", b =>

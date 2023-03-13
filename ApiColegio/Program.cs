@@ -1,5 +1,4 @@
 using ApiColegio;
-using ApiColegio.Requests.StudentRequest;
 using ApiColegio.Requests.SubjectRequest;
 using ApiColegio.Requests.TeacherRequest;
 using Domain.Context;
@@ -30,11 +29,10 @@ services.AddDbContext<ConexionSQLServer>(options => options
 .UseSqlServer(builder.Configuration
 .GetConnectionString("CadenaConexionSQLServer"), b => b.MigrationsAssembly("ApiColegio")));
 
+
 // Use DI to inyect the Services that you need 
-services.AddScoped<StudentRequest>();
 services.AddScoped<TeacherRequest>();
 services.AddScoped<SubjectRequest>();
-
 services.AddRepositories();
 //services.AddApplication();
 //

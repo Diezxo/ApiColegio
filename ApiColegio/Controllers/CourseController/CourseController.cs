@@ -20,7 +20,7 @@ namespace ApiColegio.Controllers.CourseController
         }
         // GET: api/<CourseController>
         [HttpGet]
-        public Task<IEnumerable<CourseToListDto>> Get()
+        public Task<IQueryable<CourseToListDto>> Get()
         {
             var query = context.Courses.Select(course => new CourseToListDto
             {
@@ -33,10 +33,10 @@ namespace ApiColegio.Controllers.CourseController
                     Id = subject.Id,
                     Name = subject.Name,
                     Teacher = subject.Teacher.FirstName + " " + subject.Teacher.LastName
-                }).AsEnumerable()
+                })
 
 
-            }).AsEnumerable();
+            });
 
             return Task.FromResult(query);
         }

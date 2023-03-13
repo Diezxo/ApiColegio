@@ -18,5 +18,7 @@ namespace Domain.Entities.Models
         public int FirstPartial { get; set; }
         //public int? SecondPartial { get; set; }
         //public int? ThirdPartial { get; set; }
+        
+        
     }
 }

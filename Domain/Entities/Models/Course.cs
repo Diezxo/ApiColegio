@@ -6,11 +6,11 @@ namespace Domain.Entities.Models
     [Table("Curso")]
     public class Course: EntityBase
     {
-    //    public Course()
-    //    {
-    //        Students = new HashSet<Student>();
-    //        Subjects = new HashSet<Subject>();
-    //    }
+        public Course()
+        {
+            Students = new HashSet<Student>();
+            Subjects = new HashSet<Subject>();
+        }
 
         [Column("Nombre")]
         public string Name { get; set; } = null!;
@@ -18,8 +18,8 @@ namespace Domain.Entities.Models
         public string Section { get; set; } = null!;
 
 
-        public virtual ICollection<Student> Students { get; set; }
-        public virtual ICollection<Subject> Subjects { get; set; }
+        public ICollection<Student> Students { get; set; }
+        public ICollection<Subject> Subjects { get; set; }
     }
 
 
